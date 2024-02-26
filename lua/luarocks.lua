@@ -10,7 +10,7 @@ return {
 		end, { nargs = "+" })
 
 		-- Make lua scripts available
-		package.path = package.path .. ";" .. paths.share
+		package.path = package.path .. ";" .. table.concat(paths.share, ";")
 		-- Make .so files available
 		package.cpath = package.cpath .. ";" .. paths.lib
 
