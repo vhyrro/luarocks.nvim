@@ -40,28 +40,6 @@ local steps = {
 			assert(output.code == 0, "Failed to install hererocks\n" .. output.stderr)
 		end,
 	},
-	{
-		description = "Installing LuaJIT",
-		task = function()
-			local opts = nil
-			if is_darwin() then
-				opts = {
-					env = {
-						MACOSX_DEPLOYMENT_TARGET = "10.6",
-					},
-				}
-			end
-			local output = vim.system({
-				paths.hererocks,
-				"--builds",
-				paths.build_cache,
-				string.format("-j%s", versions.LUA_JIT),
-				string.format("-r%s", versions.LUA_ROCKS),
-				paths.rocks,
-			}, opts):wait()
-			assert(output.code == 0, "Failed to install LuaJIT\n" .. output.stderr)
-		end,
-	},
 }
 
 local rocks_after_build = nil
