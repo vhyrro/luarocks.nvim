@@ -29,15 +29,15 @@ local steps = {
 	{
 		description = "Creating python3 virtual environment",
 		task = function()
-			local output = vim.system({ "python3", "-m", "venv", paths.rocks }):wait()
-			assert(output.code == 0, "Failed to create python3 venv\n" .. output.stderr)
+			local output = vim.fn.system({ "python3", "-m", "venv", paths.rocks })
+			assert(vim.v.shell_error == 0, "Failed to create python3 venv\n" .. output)
 		end,
 	},
 	{
 		description = "Installing hererocks",
 		task = function()
-			local output = vim.system({ paths.pip, "install", "hererocks" }):wait()
-			assert(output.code == 0, "Failed to install hererocks\n" .. output.stderr)
+			local output = vim.fn.system({ paths.pip, "install", "hererocks" })
+			assert(vim.v.shell_error == 0, "Failed to install hererocks\n" .. output)
 		end,
 	},
 	{
@@ -51,15 +51,15 @@ local steps = {
 					},
 				}
 			end
-			local output = vim.system({
+			local output = vim.fn.system({
 				paths.hererocks,
 				"--builds",
 				paths.build_cache,
 				string.format("-j%s", versions.LUA_JIT),
 				string.format("-r%s", versions.LUA_ROCKS),
 				paths.rocks,
-			}, opts):wait()
-			assert(output.code == 0, "Failed to install LuaJIT\n" .. output.stderr)
+			}, opts)
+			assert(vim.v.shell_error == 0, "Failed to install LuaJIT\n" .. output)
 		end,
 	},
 }
