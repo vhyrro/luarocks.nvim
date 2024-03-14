@@ -15,51 +15,45 @@ local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
 end
 
-local function is_python_available()
-	return vim.fn.executable("python3") == 1
+--- Checks if a system tool is available.
+---@param exe string #The executable to check
+---@return boolean
+local function is_available(exe)
+	return vim.fn.executable(exe) == 1
 end
 
 local steps = {
 	{
-		description = "Checking python3 exists",
+		description = "Checking git exists",
 		task = function()
-			assert(is_python_available(), "An external 'python3' command is required")
+			assert(is_available("git"), "An external 'git' command is required to set up luarocks!")
+		end,
+	},
+    {
+        description = "Check running operating system",
+        task = function()
+            assert(vim.uv.os_uname().sysname:lower():find("windows"))
+        end
+    },
+	{
+		description = "Cloning luarocks repository with lowest depth",
+		task = function()
+			local output = vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/luarocks/luarocks.git", paths.rocks })
+			assert(vim.v.shell_error == 0, "Failed to download luarocks repository (is your internet connection unstable?):\n" .. output)
 		end,
 	},
 	{
-		description = "Creating python3 virtual environment",
+		description = "Performing a local installation",
 		task = function()
-			local output = vim.fn.system({ "python3", "-m", "venv", paths.rocks })
-			assert(vim.v.shell_error == 0, "Failed to create python3 venv\n" .. output)
-		end,
-	},
-	{
-		description = "Installing hererocks",
-		task = function()
-			local output = vim.fn.system({ paths.pip, "install", "hererocks" })
-			assert(vim.v.shell_error == 0, "Failed to install hererocks\n" .. output)
-		end,
-	},
-	{
-		description = "Installing LuaJIT",
-		task = function()
-			local opts = nil
-			if is_darwin() then
-				opts = {
-					env = {
-						MACOSX_DEPLOYMENT_TARGET = "10.6",
-					},
-				}
-			end
-			local output = vim.fn.system({
-				paths.hererocks,
-				"--builds",
-				paths.build_cache,
-				string.format("-j%s", versions.LUA_JIT),
-				string.format("-r%s", versions.LUA_ROCKS),
-				paths.rocks,
-			}, opts)
-			assert(vim.v.shell_error == 0, "Failed to install LuaJIT\n" .. output)
+            local output = vim.fn.system({
+                vim.o.sh,
+                -- TODO(vhyrro): Use combine_paths instead
+                paths.rocks .. "/configure",
+                "--prefix=" .. paths.rocks,
+                "--lua-version=5.1",
+                "--force-config",
+            })
+			assert(vim.v.shell_error == 0, "Failed to install luarocks:\n" .. output)
 		end,
 	},
 }
@@ -87,7 +81,6 @@ end
 return {
 	build = build,
 	is_prepared = is_prepared,
-	is_python_available = is_python_available,
 	-- This is a bit funky. In short setup runs before build
 	-- So if setup received rocks to install, we need to process the install
 	-- after the build
