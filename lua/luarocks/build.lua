@@ -42,7 +42,7 @@ local steps = {
     {
         description = "Check running operating system",
         task = function()
-            assert(vim.uv.os_uname().sysname:lower():find("windows"))
+            assert(not vim.uv.os_uname().sysname:lower():find("windows"))
         end
     },
 	{
