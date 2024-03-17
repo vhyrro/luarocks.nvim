@@ -8,6 +8,7 @@ local function install(rocks)
 	-- Write a fake rockspec file with a list of the user's requested luarocks
 	file:write(string.format(
 		[[
+rockspec_format = "3.0"
 package = "neovim-rocks-user-rockspec"
 version = "0.0-0"
 source = { url = "some-fake-url" }
