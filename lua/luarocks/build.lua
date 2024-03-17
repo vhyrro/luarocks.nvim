@@ -2,7 +2,7 @@ local paths = require("luarocks.paths")
 local notify = require("luarocks.notify")
 local rocks = require("luarocks.rocks")
 
-local windows = vim.loop.os_uname().sysname:lower():find("windows")
+local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
 
 local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
@@ -55,7 +55,7 @@ local steps = {
 	{
 		description = "Performing a local installation",
 		task = function()
-			if windows then
+			if is_windows then
 				local job = vim.fn.jobstart({
 					"cmd.exe",
 					"/c",
