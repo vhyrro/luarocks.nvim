@@ -2,14 +2,7 @@ local paths = require("luarocks.paths")
 local notify = require("luarocks.notify")
 local rocks = require("luarocks.rocks")
 
-local versions = {
-	LUA_JIT = "2.1",
-	LUA_ROCKS = "latest",
-}
-
-local function is_darwin()
-	return vim.loop.os_uname().sysname == "Darwin"
-end
+local windows = vim.loop.os_uname().sysname:lower():find("windows")
 
 local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
@@ -22,6 +15,11 @@ local function is_available(exe)
 	return vim.fn.executable(exe) == 1
 end
 
+---@diagnostic disable-next-line: param-type-mismatch
+math.randomseed(os.time())
+
+local tempdir = vim.fs.joinpath(vim.fn.stdpath("run") --[[@as string]], ("luarocks-%X"):format(math.random(256 ^ 7)))
+
 local steps = {
 	{
 		description = "Checking git exists",
@@ -29,31 +27,66 @@ local steps = {
 			assert(is_available("git"), "An external 'git' command is required to set up luarocks!")
 		end,
 	},
-    {
-        description = "Check running operating system",
-        task = function()
-            assert(not vim.uv.os_uname().sysname:lower():find("windows"))
-        end
-    },
+	{
+		description = "Checking Lua exists",
+		task = function()
+			assert(
+				is_available("lua"),
+				"Lua not found on your system! Please install it using your system package manager or from https://github.com/rjpcomputing/luaforwindows."
+			)
+		end,
+	},
 	{
 		description = "Cloning luarocks repository with lowest depth",
 		task = function()
-			local output = vim.fn.system({ "git", "clone", "--filter=blob:none", "https://github.com/luarocks/luarocks.git", paths.rocks })
-			assert(vim.v.shell_error == 0, "Failed to download luarocks repository (is your internet connection unstable?):\n" .. output)
+			local output = vim.fn.system({
+				"git",
+				"clone",
+				"--filter=blob:none",
+				"https://github.com/luarocks/luarocks.git",
+				tempdir,
+			})
+			assert(
+				vim.v.shell_error == 0,
+				"Failed to download luarocks repository (is your internet connection unstable?):\n" .. output
+			)
 		end,
 	},
 	{
 		description = "Performing a local installation",
 		task = function()
-            local output = vim.fn.system({
-                vim.o.sh,
-                -- TODO(vhyrro): Use combine_paths instead
-                paths.rocks .. "/configure",
-                "--prefix=" .. paths.rocks,
-                "--lua-version=5.1",
-                "--force-config",
-            })
-			assert(vim.v.shell_error == 0, "Failed to install luarocks:\n" .. output)
+			if windows then
+				local job = vim.fn.jobstart({
+					"cmd.exe",
+					"/c",
+					"install.bat",
+					"/P",
+					paths.rocks,
+					"/LV",
+					"5.1",
+					"/FORCECONFIG",
+					"/NOADMIN",
+					"/Q",
+				}, {
+					cwd = tempdir,
+				})
+
+				local error_code = vim.fn.jobwait(job)[1]
+				assert(error_code == 0, "Failed to install luarocks!")
+			else
+				local job = vim.fn.jobstart({
+					"sh",
+					"configure",
+					"--prefix=" .. paths.rocks,
+					"--lua-version=5.1",
+					"--force-config",
+				}, {
+					cwd = tempdir,
+				})
+
+				local error_code = vim.fn.jobwait({ job })[1]
+				assert(error_code == 0, "Failed to install luarocks!")
+			end
 		end,
 	},
 }
