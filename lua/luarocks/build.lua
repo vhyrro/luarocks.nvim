@@ -85,6 +85,18 @@ local steps = {
 				})
 
 				local error_code = vim.fn.jobwait({ job })[1]
+
+				assert(error_code == 0, "Failed to install luarocks!")
+
+				job = vim.fn.jobstart({
+					"make",
+					"install",
+				}, {
+					cwd = tempdir,
+				})
+
+				error_code = vim.fn.jobwait({ job })[1]
+
 				assert(error_code == 0, "Failed to install luarocks!")
 			end
 		end,
