@@ -1,5 +1,5 @@
 local function is_win()
-	return vim.loop.os_uname().sysname == "Windows_NT"
+	return vim.loop.os_uname().sysname:lower():find("windows")
 end
 
 local function get_path_separator()
@@ -28,7 +28,7 @@ return {
 	plugin = plugin_path,
 	rocks = rocks_path,
 	bin = combine_paths(rocks_path, "bin"),
-	luarocks = combine_paths(rocks_path, "bin", "luarocks"),
+	luarocks = combine_paths(rocks_path, "bin", "luarocks") .. (is_win() and ".bat" or ""),
 	build_cache = combine_paths(rocks_path, "builds"),
 	share = {
 		combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
