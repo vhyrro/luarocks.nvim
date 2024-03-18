@@ -1,6 +1,7 @@
 local paths = require("luarocks.paths")
 local notify = require("luarocks.notify")
 local rocks = require("luarocks.rocks")
+local utils = require("luarocks.utils")
 
 local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
 
@@ -28,7 +29,8 @@ end
 ---@diagnostic disable-next-line: param-type-mismatch
 math.randomseed(os.time())
 
-local tempdir = vim.fs.joinpath(vim.fn.stdpath("run") --[[@as string]], ("luarocks-%X"):format(math.random(256 ^ 7)))
+local tempdir =
+	utils.combine_paths(vim.fn.stdpath("run") --[[@as string]], ("luarocks-%X"):format(math.random(256 ^ 7)))
 
 local steps = {
 	{
