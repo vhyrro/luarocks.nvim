@@ -26,7 +26,7 @@ local steps = {
 	{
 		description = "Checking git exists",
 		task = function()
-			assert(is_available("git"), "An external 'git' command is required to set up luarocks!")
+			assert(is_available("git"), "The 'git' command is required to set up luarocks!")
 		end,
 	},
 	{
@@ -71,6 +71,11 @@ local steps = {
 					"/Q",
 				}, {
 					cwd = tempdir,
+					on_stderr = function(_, data)
+						local concatenated = table.concat(data, "\n")
+
+						print("Failed to install luarocks:", concatenated)
+					end,
 				})
 
 				local error_code = vim.fn.jobwait(job)[1]
@@ -84,6 +89,11 @@ local steps = {
 					"--force-config",
 				}, {
 					cwd = tempdir,
+					on_stderr = function(_, data)
+						local concatenated = table.concat(data, "\n")
+
+						print("Failed to install luarocks:", concatenated)
+					end,
 				})
 
 				local error_code = vim.fn.jobwait({ job })[1]
@@ -95,6 +105,11 @@ local steps = {
 					"install",
 				}, {
 					cwd = tempdir,
+					on_stderr = function(_, data)
+						local concatenated = table.concat(data, "\n")
+
+						print("Failed to install luarocks:", concatenated)
+					end,
 				})
 
 				error_code = vim.fn.jobwait({ job })[1]
