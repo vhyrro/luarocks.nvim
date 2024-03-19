@@ -92,7 +92,7 @@ local steps = {
 					end,
 				})
 
-				local error_code = vim.fn.jobwait(job)[1]
+				local error_code = vim.fn.jobwait({job})[1]
 				assert(error_code == 0, "Failed to install luarocks!")
 			else
 				local job = vim.fn.jobstart({
