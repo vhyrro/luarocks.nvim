@@ -84,6 +84,10 @@ local steps = {
 					on_stderr = function(_, data)
 						local concatenated = table.concat(data, "\n")
 
+                        if vim.trim(concatenated):len() == 0 then
+                            return
+                        end
+
 						print("Failed to install luarocks:", concatenated)
 					end,
 				})
@@ -102,6 +106,10 @@ local steps = {
 					on_stderr = function(_, data)
 						local concatenated = table.concat(data, "\n")
 
+                        if vim.trim(concatenated):len() == 0 then
+                            return
+                        end
+
 						print("Failed to install luarocks:", concatenated)
 					end,
 				})
@@ -117,6 +125,10 @@ local steps = {
 					cwd = tempdir,
 					on_stderr = function(_, data)
 						local concatenated = table.concat(data, "\n")
+
+                        if vim.trim(concatenated):len() == 0 then
+                            return
+                        end
 
 						print("Failed to install luarocks:", concatenated)
 					end,
