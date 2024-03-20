@@ -19,6 +19,10 @@ local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
 end
 
+local function remove_shell_color(s)
+    return tostring(s):gsub("\x1B%[[0-9;]+m", "")
+end
+
 --- Checks if a system tool is available.
 ---@param exe string #The executable to check
 ---@return boolean
@@ -67,6 +71,8 @@ local steps = {
 	{
 		description = "Performing a local installation",
 		task = function()
+            local error_output
+
 			if is_windows then
 				local job = vim.fn.jobstart({
 					"cmd.exe",
@@ -81,19 +87,21 @@ local steps = {
 					"/Q",
 				}, {
 					cwd = tempdir,
-					on_stderr = function(_, data)
+                    stdout_buffered = true,
+					on_stdout = function(_, data)
 						local concatenated = table.concat(data, "\n")
 
                         if vim.trim(concatenated):len() == 0 then
                             return
                         end
 
-						print("Failed to install luarocks:", concatenated)
+                        error_output = remove_shell_color(concatenated)
 					end,
 				})
 
-				local error_code = vim.fn.jobwait({job})[1]
-				assert(error_code == 0, "Failed to install luarocks!")
+				local error_code = vim.fn.jobwait({ job })[1]
+
+				assert(error_code == 0, string.format("Failed to install luarocks: %s", error_output))
 			else
 				local job = vim.fn.jobstart({
 					"sh",
@@ -103,40 +111,42 @@ local steps = {
 					"--force-config",
 				}, {
 					cwd = tempdir,
-					on_stderr = function(_, data)
+                    stdout_buffered = true,
+					on_stdout = function(_, data)
 						local concatenated = table.concat(data, "\n")
 
                         if vim.trim(concatenated):len() == 0 then
                             return
                         end
 
-						print("Failed to install luarocks:", concatenated)
+                        error_output = remove_shell_color(concatenated)
 					end,
 				})
 
 				local error_code = vim.fn.jobwait({ job })[1]
 
-				assert(error_code == 0, "Failed to install luarocks!")
+				assert(error_code == 0, string.format("Failed to install luarocks: %s", error_output))
 
 				job = vim.fn.jobstart({
 					"make",
 					"install",
 				}, {
 					cwd = tempdir,
-					on_stderr = function(_, data)
+                    stdout_buffered = true,
+					on_stdout = function(_, data)
 						local concatenated = table.concat(data, "\n")
 
                         if vim.trim(concatenated):len() == 0 then
                             return
                         end
 
-						print("Failed to install luarocks:", concatenated)
+                        error_output = remove_shell_color(concatenated)
 					end,
 				})
 
 				error_code = vim.fn.jobwait({ job })[1]
 
-				assert(error_code == 0, "Failed to install luarocks!")
+				assert(error_code == 0, string.format("Failed to install luarocks: %s", error_output))
 			end
 		end,
 	},
