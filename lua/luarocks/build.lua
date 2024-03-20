@@ -11,12 +11,18 @@ local function is_darwin()
 	return vim.loop.os_uname().sysname == "Darwin"
 end
 
+local function is_win()
+	return vim.loop.os_uname().sysname == "Windows_NT"
+end
+
+local python = is_win() and "python" or "python3"
+
 local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
 end
 
 local function is_python_available()
-	return vim.fn.executable("python3") == 1
+	return vim.fn.executable(python) == 1
 end
 
 local steps = {
@@ -29,7 +35,7 @@ local steps = {
 	{
 		description = "Creating python3 virtual environment",
 		task = function()
-			local output = vim.fn.system({ "python3", "-m", "venv", paths.rocks })
+			local output = vim.fn.system({ python, "-m", "venv", paths.rocks })
 			assert(vim.v.shell_error == 0, "Failed to create python3 venv\n" .. output)
 		end,
 	},
