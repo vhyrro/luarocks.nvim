@@ -1,6 +1,6 @@
-local paths = require("luarocks.paths")
-local rocks = require("luarocks.rocks")
-local build = require("luarocks.build")
+local paths = require("luarocks-nvim.paths")
+local rocks = require("luarocks-nvim.rocks")
+local build = require("luarocks-nvim.build")
 
 return {
 	setup = function(opts)

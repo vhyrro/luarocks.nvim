@@ -1,5 +1,5 @@
-local paths = require("luarocks.paths")
-local notify = require("luarocks.notify")
+local paths = require("luarocks-nvim.paths")
+local notify = require("luarocks-nvim.notify")
 
 local function install(rocks)
 	local file, error = io.open(paths.rockspec, "w+")

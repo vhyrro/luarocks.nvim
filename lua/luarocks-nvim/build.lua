@@ -1,7 +1,7 @@
-local paths = require("luarocks.paths")
-local notify = require("luarocks.notify")
-local rocks = require("luarocks.rocks")
-local utils = require("luarocks.utils")
+local paths = require("luarocks-nvim.paths")
+local notify = require("luarocks-nvim.notify")
+local rocks = require("luarocks-nvim.rocks")
+local utils = require("luarocks-nvim.utils")
 
 local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
 
