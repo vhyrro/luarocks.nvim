@@ -23,6 +23,7 @@ end
 
 local plugin_path = get_plugin_path()
 local rocks_path = combine_paths(plugin_path, ".rocks")
+local lib_extension = is_win() and "?.dll" or "?.so"
 
 return {
 	plugin = plugin_path,
@@ -36,6 +37,6 @@ return {
 		combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
 		combine_paths(rocks_path, "share", "lua", "5.1", "?", "init.lua"),
 	},
-	lib = combine_paths(rocks_path, "lib", "lua", "5.1", "?.so"),
+	lib = combine_paths(rocks_path, "lib", "lua", "5.1", lib_extension),
 	rockspec = combine_paths(rocks_path, "neovim-rocks-user-rockspec-0.0-0.rockspec"),
 }
