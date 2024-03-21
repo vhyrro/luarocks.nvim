@@ -29,10 +29,10 @@ local scripts = is_win() and "Scripts" or "bin"
 return {
 	plugin = plugin_path,
 	rocks = rocks_path,
-	bin = combine_paths(rocks_path, scripts),
+	bin = combine_paths(rocks_path, "bin"),
 	luarocks = combine_paths(rocks_path, "bin", "luarocks"),
-	pip = combine_paths(rocks_path, scripts, "pip3"),
-	hererocks = combine_paths(rocks_path, scripts, "hererocks"),
+	pip = combine_paths(rocks_path, "bin", "pip3"),
+	hererocks = combine_paths(rocks_path, "bin", "hererocks"),
 	build_cache = combine_paths(rocks_path, "builds"),
 	share = {
 		combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
