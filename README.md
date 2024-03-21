@@ -23,16 +23,13 @@
 
 ### Lazy.nvim Integration
 
-For users employing the Lazy.nvim plugin manager, `luarocks.nvim` can be added to your configuration
-with the following code:
+For users employing the Lazy.nvim plugin manager, `luarocks.nvim` can be added to your configuration with the following code:
 
 ```lua
 {
-  "vhyrro/luarocks",
-  opts = {
-    rocks = { "fzy" }, -- Specify luarocks packages to install ("fzy" is provided as an example)
-    -- luarocks_build_args = { "--with-lua=/my/path" }, -- extra options to pass to luarocks's configuration script
-  }
+  "vhyrro/luarocks.nvim",
+  priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+  config = true,
 }
 ```
 
@@ -43,12 +40,29 @@ Generally, other plugins which rely on `luarocks.nvim` as their dependency manag
 dependency installation in their `build.lua`s, so you don't even have to touch any options yourself!
 Just set up this plugin and the rest should be automatic.
 
+### Installing a Rock List
+
+To install a set of rocks (with the ability to add version constraints) use the following configuration instead:
+
+```lua
+{
+  "vhyrro/luarocks.nvim",
+  priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+  opts = {
+    rocks = { "fzy", "pathlib.nvim ~> 1.0" }, -- specifies a list of rocks to install
+    -- luarocks_build_args = { "--with-lua=/my/path" }, -- extra options to pass to luarocks's configuration script
+  },
+}
+```
+
+The latest version of a rock will be pulled if the version constraint is not provided.
+
 ### Other Plugin Managers
 
 For users utilizing other plugin managers, manual setup is required. Use the following code to initialize `luarocks.nvim`:
 
 ```lua
-require("luarocks").setup({ rocks = { "fzy" } })
+require("luarocks-nvim").setup()
 ```
 
 Not only this, you will also need to set up a manual build trigger. This is supported by most
