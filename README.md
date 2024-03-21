@@ -31,7 +31,7 @@ with the following code:
   "vhyrro/luarocks",
   opts = {
     rocks = { "fzy" }, -- Specify luarocks packages to install ("fzy" is provided as an example)
-    -- luarocks_args = { "--with-lua=/my/path" }, -- extra options to pass to luarocks's configuration script
+    -- luarocks_build_args = { "--with-lua=/my/path" }, -- extra options to pass to luarocks's configuration script
   }
 }
 ```
