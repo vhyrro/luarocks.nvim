@@ -14,11 +14,6 @@ return {
 		-- Make .so files available
 		package.cpath = package.cpath .. ";" .. paths.lib
 
-		-- There are not rocks requests
-		if not opts.rocks or #opts.rocks == 0 then
-			return
-		end
-
 		-- Check that the system is ready to install rocks
 		if build.is_prepared() then
 			-- We have requested rocks so ensure they are installed
