@@ -1,33 +1,46 @@
-# Luarocks.nvim
+<div align="center">
 
-`luarocks.nvim` is a Neovim plugin designed to streamline the installation of LuaRocks packages directly within Neovim. It simplifies the process of managing Lua dependencies, ensuring a hassle-free experience for Neovim users.
+# luarocks.nvim
 
-[Screencast from 2023-11-15 21-29-55.webm](https://github.com/camspiers/luarocks/assets/51294/89fde778-c9da-4fa0-bde9-a4093f7df617)
+</div>
+
+`luarocks.nvim` is a Neovim plugin designed to streamline the installation of luarocks packages directly within Neovim. It simplifies the process of managing Lua dependencies, ensuring a hassle-free experience for Neovim users.
 
 ## Requirements
 
-- An up-to-date Neovim nightly (>= 0.10) installation.
-- python3 on system path (not required to be integrated into neovim, only on PATH)
+- Neovim `0.9` or greater.
+- The `git` CLI tool.
+- Lua 5.1 installed on your system and available in your system's `PATH`.
+
+  **On unix systems**, this is as simple as using your system package manager (`brew`, `pacman`, `apt` etc.).
+  Just make sure that you're installing the 5.1 version of lua! Usually the package name will be something
+  along the lines of `lua51` or `lua-5.1`.
+
+  **On Windows systems**, it's recommended to use an all-in-one installer like https://github.com/rjpcomputing/luaforwindows.
+  Be sure to restart your terminal after installing Lua for the `PATH` to be updated!
 
 ## Usage
 
 ### Lazy.nvim Integration
 
-For users employing the Lazy.nvim plugin manager, effortlessly integrate `luarocks.nvim` into your configuration by adding the following lines:
+For users employing the Lazy.nvim plugin manager, `luarocks.nvim` can be added to your configuration
+with the following code:
 
 ```lua
 {
-  "camspiers/luarocks",
-  dependencies = {
-    "rcarriga/nvim-notify", -- Optional dependency
-  },
+  "vhyrro/luarocks",
   opts = {
-    rocks = { "fzy" } -- Specify LuaRocks packages to install
+    rocks = { "fzy" } -- Specify luarocks packages to install
   }
 }
 ```
 
-This snippet not only installs the `luarocks.nvim` plugin but also provides an option to include additional LuaRocks packages. The "fzy" package is specified as an example.
+Upon installing, an automatic build step will be invoked by `lazy.nvim` in an attempt to compile a local luarocks installation on your machine.
+If you're having issues with this, be sure to manually run `:Lazy build luarocks.nvim`!
+
+Generally, other plugins which rely on `luarocks.nvim` as their dependency manager perform automatic
+dependency installation in their `build.lua`s, so you don't even have to touch any options yourself!
+Just set up this plugin and the rest should be automatic.
 
 ### Other Plugin Managers
 
@@ -37,35 +50,18 @@ For users utilizing other plugin managers, manual setup is required. Use the fol
 require("luarocks").setup({ rocks = { "fzy" } })
 ```
 
-Adjust the `rocks` array to include the names of the LuaRocks packages you want to install.
-
-## Optional Dependencies
-
-If you want nicer notifications during installation, add `rcarriga/nvim-notify` as a dependency:
-
-```lua
-{
-  "camspiers/luarocks",
-  dependencies = {
-    "rcarriga/nvim-notify", -- Optional dependency
-  },
-  opts = {
-    rocks = { "fzy" } -- Specify LuaRocks packages to install
-  }
-}
-```
+Not only this, you will also need to set up a manual build trigger. This is supported by most
+plugin managers like `packer`/`pckr` and `vim-plug`. See [manual build trigger](#manual-build-trigger)
+for more info.
 
 ## Build Process
 
 The `luarocks.nvim` plugin includes a build process to ensure proper functionality. The build process involves the following steps:
 
-1. **Checking Python3 Existence**: Ensures the presence of the external 'python3' command.
-
-2. **Creating Python3 Virtual Environment**: Establishes a Python3 virtual environment for the plugin.
-
-3. **Installing hererocks**: Installs the `hererocks` tool. Used for installing Luarocks.
-
-4. **Installing LuaJIT**: Installs LuaJIT, with additional configuration for macOS.
+1. Checking for the existence of `lua` and its respective version as well as `git`.
+2. Cloning the `luarocks/luarocks` repository at the lowest possible depth.
+3. Compiling `luarocks` into a `.rocks` directory directly in this plugin's root.
+   On Windows the install process may prompt for administrative permissions.
 
 ### Manual Build Trigger
 
