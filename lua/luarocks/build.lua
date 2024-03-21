@@ -26,6 +26,9 @@ math.randomseed(os.time())
 local tempdir =
 	utils.combine_paths(vim.fn.stdpath("run") --[[@as string]], ("luarocks-%X"):format(math.random(256 ^ 7)))
 
+
+local rocks_after_build = nil
+local luarocks_args = nil
 local steps = {
 	{
 		description = "Checking git exists",
@@ -64,7 +67,7 @@ local steps = {
             local error_output
 
 			if is_windows then
-				local job = vim.fn.jobstart({
+                local cmd = {
 					"cmd.exe",
 					"/c",
 					"install.bat",
@@ -75,7 +78,11 @@ local steps = {
 					"/FORCECONFIG",
 					"/NOADMIN",
 					"/Q",
-				}, {
+				}
+
+                vim.list_extend(cmd, luarocks_args or {})
+
+				local job = vim.fn.jobstart(cmd, {
 					cwd = tempdir,
                     stdout_buffered = true,
 					on_stdout = function(_, data)
@@ -93,13 +100,17 @@ local steps = {
 
 				assert(error_code == 0, string.format("Failed to install luarocks: %s", error_output))
 			else
-				local job = vim.fn.jobstart({
+                local cmd = {
 					"sh",
 					"configure",
 					"--prefix=" .. paths.rocks,
 					"--lua-version=5.1",
 					"--force-config",
-				}, {
+				}
+
+                vim.list_extend(cmd, luarocks_args or {})
+
+				local job = vim.fn.jobstart(cmd, {
 					cwd = tempdir,
                     stdout_buffered = true,
 					on_stdout = function(_, data)
@@ -142,8 +153,6 @@ local steps = {
 	},
 }
 
-local rocks_after_build = nil
-
 local function build()
 	notify.info("Build started")
 	for _, step in ipairs(steps) do
@@ -168,7 +177,8 @@ return {
 	-- This is a bit funky. In short setup runs before build
 	-- So if setup received rocks to install, we need to process the install
 	-- after the build
-	ensure_rocks_after_build = function(ensure_rocks)
+	ensure_rocks_after_build = function(ensure_rocks, args)
 		rocks_after_build = ensure_rocks
+        luarocks_args = args
 	end,
 }
