@@ -15,6 +15,10 @@ local function is_win()
 	return vim.loop.os_uname().sysname == "Windows_NT"
 end
 
+local function remove_shell_color(s)
+    return tostring(s):gsub("\x1B%[[0-9;]+m", "")
+end
+
 local python = is_win() and "python" or "python3"
 
 local function is_prepared()
@@ -49,15 +53,28 @@ local steps = {
 	{
 		description = "Installing LuaJIT",
 		task = function()
-			local opts = nil
+            local error_output
+
+            local opts = {
+                stdout_buffered = true,
+                on_stdout = function(_, data)
+                    local concatenated = table.concat(data, "\n")
+
+                    if vim.trim(concatenated):len() == 0 then
+                        return
+                    end
+
+                    error_output = remove_shell_color(concatenated)
+                end,
+            }
+
 			if is_darwin() then
-				opts = {
-					env = {
-						MACOSX_DEPLOYMENT_TARGET = "10.6",
-					},
-				}
+                opts.env = {
+                    MACOSX_DEPLOYMENT_TARGET = "10.6",
+                }
 			end
-			local output = vim.fn.system({
+
+			local job = vim.fn.jobstart({
 				paths.hererocks,
 				"--builds",
 				paths.build_cache,
@@ -65,7 +82,10 @@ local steps = {
 				string.format("-r%s", versions.LUA_ROCKS),
 				paths.rocks,
 			}, opts)
-			assert(vim.v.shell_error == 0, "Failed to install LuaJIT\n" .. output)
+
+            local result = vim.fn.jobwait({ job })[1]
+
+			assert(result == 0, "Failed to install LuaJIT\n" .. error_output)
 		end,
 	},
 }
