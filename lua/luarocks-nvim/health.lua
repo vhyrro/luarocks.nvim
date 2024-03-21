@@ -1,8 +1,8 @@
-local build = require("luarocks.build")
+local build = require("luarocks-nvim.build")
 
 return {
 	check = function()
-		vim.health.start("luarocks")
+		vim.health.start("luarocks.nvim")
 		if build.is_prepared() then
 			vim.health.ok("luarocks system is prepared and ready to install luarocks")
 		else

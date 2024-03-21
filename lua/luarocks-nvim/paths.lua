@@ -1,4 +1,4 @@
-local utils = require("luarocks.utils")
+local utils = require("luarocks-nvim.utils")
 
 local plugin_path = utils.get_plugin_path()
 local rocks_path = utils.combine_paths(plugin_path, ".rocks")
