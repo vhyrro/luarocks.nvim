@@ -26,7 +26,7 @@ return {
 		else
 			-- We haven't built yet so register the rocks
 			-- to be installed after build finishes
-			build.ensure_rocks_after_build(opts.rocks)
+			build.ensure_rocks_after_build(opts.rocks, opts.luarocks_args)
 		end
 	end,
 }
