@@ -51,7 +51,7 @@ local steps = {
 					},
 				}
 			end
-			local output = vim.fn.system({
+			local output = vim.fn.jobstart({
 				paths.hererocks,
 				"--builds",
 				paths.build_cache,
