@@ -2,6 +2,7 @@ local utils = require("luarocks-nvim.utils")
 
 local plugin_path = utils.get_plugin_path()
 local rocks_path = utils.combine_paths(plugin_path, ".rocks")
+local lib_extension = utils.is_win() and "?.dll" or "?.so"
 
 return {
 	plugin = plugin_path,
@@ -13,6 +14,6 @@ return {
 		utils.combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
 		utils.combine_paths(rocks_path, "share", "lua", "5.1", "?", "init.lua"),
 	},
-	lib = utils.combine_paths(rocks_path, "lib", "lua", "5.1", "?.so"),
+	lib = utils.combine_paths(rocks_path, "lib", "lua", "5.1", lib_extension),
 	rockspec = utils.combine_paths(rocks_path, "neovim-rocks-user-rockspec-0.0-0.rockspec"),
 }
