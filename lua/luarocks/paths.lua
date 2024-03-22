@@ -23,16 +23,17 @@ end
 
 local plugin_path = get_plugin_path()
 local rocks_path = combine_paths(plugin_path, ".rocks")
+local scripts = is_win() and "Scripts" or "bin"
 local lib_extension = is_win() and "?.dll" or "?.so"
 local scripts = is_win() and "Scripts" or "bin"
 
 return {
 	plugin = plugin_path,
 	rocks = rocks_path,
-	bin = combine_paths(rocks_path, "bin"),
+	bin = combine_paths(rocks_path, scripts),
 	luarocks = combine_paths(rocks_path, "bin", "luarocks"),
-	pip = combine_paths(rocks_path, "bin", "pip3"),
-	hererocks = combine_paths(rocks_path, "bin", "hererocks"),
+	pip = combine_paths(rocks_path, scripts, "pip3"),
+	hererocks = combine_paths(rocks_path, scripts, "hererocks"),
 	build_cache = combine_paths(rocks_path, "builds"),
 	share = {
 		combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
