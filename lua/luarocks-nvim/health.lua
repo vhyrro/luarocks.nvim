@@ -8,7 +8,7 @@ return {
 		else
 			vim.health.info("luarocks system is not prepared")
 
-            if vim.fn.executable("git") == 0 then
+            if vim.fn.executable("git") == 1 then
                 vim.health.ok("git is installed")
             else
                 vim.health.error("git is not installed! Please install it at https://git-scm.com/downloads.")
