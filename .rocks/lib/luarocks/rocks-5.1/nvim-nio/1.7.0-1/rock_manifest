@@ -1,0 +1,22 @@
+rock_manifest = {
+   doc = {
+      ["nio.txt"] = "3eea331b458bd81c66e7986309aae19f"
+   },
+   lua = {
+      nio = {
+         ["control.lua"] = "f1f4d1e689c2376ba737fff25789b693",
+         ["file.lua"] = "501af96e437b9c468e84cf1bec2f2236",
+         ["init.lua"] = "6a673443deb27cffc15c2e3f8a365c1c",
+         ["logger.lua"] = "c04f2cb97f17c8a2fdae308e193df56e",
+         ["lsp-types.lua"] = "d2d884df656e47e2aabd11f55acb8d09",
+         ["lsp.lua"] = "15354d599758ccd6f03df13da08c7d62",
+         ["process.lua"] = "2532892b73d61330b0e3c1a83a813672",
+         ["streams.lua"] = "1a072e00fcea6edb7644fb5d0bdb451d",
+         ["tasks.lua"] = "a47fa06e2c5723ada65ef70d07886447",
+         ["tests.lua"] = "5ab03d18146411116a38739f4dac3de3",
+         ["ui.lua"] = "a42d634c9c41403b6ad98a2fddc996f9",
+         ["uv.lua"] = "d4788a4769c1b183a0d9da64a1c148ea"
+      }
+   },
+   ["nvim-nio-1.7.0-1.rockspec"] = "6132eaaf40bfc21ca46977d0c4e4664c"
+}

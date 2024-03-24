@@ -1,0 +1,98 @@
+rock_manifest = {
+   lua = {
+      nui = {
+         input = {
+            ["README.md"] = "57aedf186f748e4621d5684e582cbf8b",
+            ["init.lua"] = "d4aef881eed811b3b09e151f5fd21048"
+         },
+         layout = {
+            ["README.md"] = "cdd351f847db0d9e63ebceb0ada39115",
+            ["float.lua"] = "149685394a2f926800909885c1bc47d0",
+            ["init.lua"] = "86a6e383cef09ec68336f292050417fe",
+            ["split.lua"] = "13f6d165b3e1533b875f7e216cf8f6bb",
+            ["utils.lua"] = "c4c77359406b7005decc1c7e156ca85b"
+         },
+         line = {
+            ["README.md"] = "b8296c09f393e9188acb62d4290c3d1f",
+            ["init.lua"] = "0d315b8ee6460a045069b0a0ca48e672"
+         },
+         menu = {
+            ["README.md"] = "a5f7bcec6fb47b003114616cd9c3c9cd",
+            ["init.lua"] = "fe42edae4e918720a8cba636437ca045"
+         },
+         object = {
+            ["init.lua"] = "41fd0ddf9ef7f232cbf82e2cd5cb3414"
+         },
+         popup = {
+            ["README.md"] = "7f6af09fb9b794c011e1e760020970dd",
+            ["border.lua"] = "f42908e3ff9e5f7f7e45a6cd5a82330d",
+            ["init.lua"] = "4cf4f4928cbd73296926501477c14ece"
+         },
+         split = {
+            ["README.md"] = "7a5078f396cca913f361c9d257604fc4",
+            ["init.lua"] = "77ef953d6f3bfcfcd598124c6ca2a7e3",
+            ["utils.lua"] = "bf24137d75a62e23d775aec712a2b1a1"
+         },
+         table = {
+            ["README.md"] = "d4092219944bffa0a6d33e00bb7bb576",
+            ["init.lua"] = "565b768a02d89b6986ab64c035b00224"
+         },
+         text = {
+            ["README.md"] = "cc3887013d093c19f315565a88a97d66",
+            ["init.lua"] = "9dd10e41e2d2206e568e4d2f0e354bf9"
+         },
+         tree = {
+            ["README.md"] = "f493c8a177c3eccf9fe8e38a0c20b51b",
+            ["init.lua"] = "f4603f2e7c9551947755c06da0f70d4b",
+            ["util.lua"] = "a04600b78282ba91e8dfa671977033c0"
+         },
+         utils = {
+            ["autocmd.lua"] = "7f0494f2a2ed06dd4247e811306464d6",
+            ["buf_storage.lua"] = "4b2185adfee52329e8174527b69342e6",
+            ["init.lua"] = "197a3c7a67da5313b5c1290450d7bac3",
+            ["keymap.lua"] = "e35ecc6c294836b7b5fde6a6adf32696"
+         }
+      }
+   },
+   ["nui.nvim-0.3.0-1.rockspec"] = "2ef6448d93fc7e0b890c68e71a6b0767",
+   tests = {
+      helpers = {
+         ["init.lua"] = "7da153bc9db4ace3c38c469107ccb28c"
+      },
+      ["init.lua"] = "157b59cde3d9ce52873d584fbf4357ee",
+      nui = {
+         input = {
+            ["init_spec.lua"] = "1f8d79b288391b3452787a11e317e347"
+         },
+         layout = {
+            ["init_spec.lua"] = "69b1d2796099f681dad2c9119ba69f1a",
+            ["utils_spec.lua"] = "6d5e76d065b7f7419808b9975470294d"
+         },
+         line = {
+            ["init_spec.lua"] = "d3cc98d867d0ebc0a7db151334d0930c"
+         },
+         menu = {
+            ["init_spec.lua"] = "3b2d70e12e00e47c3e04206a514e0449"
+         },
+         object = {
+            ["init_spec.lua"] = "f499f74b45d8646da1fd25f0a98799f7"
+         },
+         popup = {
+            ["border_spec.lua"] = "0496110c6cb5c0d8f616d22c9877b30d",
+            ["init_spec.lua"] = "92549c5c5450df2a8557a2b68cd70269"
+         },
+         split = {
+            ["init_spec.lua"] = "03fc8062592a8137860659426eaa7d6d"
+         },
+         table = {
+            ["init_spec.lua"] = "88e9871a64f05794d9472a9f2fc85239"
+         },
+         text = {
+            ["init_spec.lua"] = "fc4a92bab680411b2985d2cea9b0ed82"
+         },
+         tree = {
+            ["init_spec.lua"] = "1b52b264c8cb7b94cc0420ca26a7cfe1"
+         }
+      }
+   }
+}
