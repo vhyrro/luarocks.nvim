@@ -10,11 +10,11 @@
 
 - Neovim `0.9` or greater.
 - The `git` CLI tool.
-- Lua 5.1 installed on your system and available in your system's `PATH`.
+- Lua 5.1 or LuaJIT installed on your system and available in your system's `PATH`.
 
   **On unix systems**, this is as simple as using your system package manager (`brew`, `pacman`, `apt` etc.).
-  Just make sure that you're installing the 5.1 version of lua! Usually the package name will be something
-  along the lines of `lua51` or `lua-5.1`.
+  Just make sure that you're installing the 5.1 or JIT version of lua! Usually the package name will be something
+  along the lines of `lua51`, `lua-5.1` or `luajit`.
 
   **On Windows systems**, it's recommended to use an all-in-one installer like https://github.com/rjpcomputing/luaforwindows.
   Be sure to restart your terminal after installing Lua for the `PATH` to be updated!
