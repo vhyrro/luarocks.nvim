@@ -123,6 +123,15 @@ local steps = {
 			}
 			vim.list_extend(cmd, luarocks_args or {})
 			local error_code, stdout, stderr = run_job(cmd)
+			-- some known workarounds for better user experience
+			local next_try_args = {
+				{ "--with-lua-include=/usr/include" }, -- arch linux
+			}
+			-- while error_code ~= 0 try the workarounds
+			while error_code ~= 0 and #next_try_args > 0 do
+				error_code, _, _ = run_job(vim.list_extend(vim.deepcopy(cmd), next_try_args[1]))
+				table.remove(next_try_args, 1)
+			end
 			assert(error_code == 0, string.format("Failed to install luarocks: %s\n%s", stdout, stderr))
 		end,
 	},
