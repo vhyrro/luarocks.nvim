@@ -3,17 +3,7 @@ local notify = require("luarocks-nvim.notify")
 local rocks = require("luarocks-nvim.rocks")
 local utils = require("luarocks-nvim.utils")
 
-local is_windows = vim.loop.os_uname().sysname:lower():find("windows")
-
-local function is_win()
-	return vim.loop.os_uname().sysname == "Windows_NT"
-end
-
-local function remove_shell_color(s)
-    return tostring(s):gsub("\x1B%[[0-9;]+m", "")
-end
-
-local python = is_win() and "python" or "python3"
+local is_windows = utils.is_win()
 
 local function is_prepared()
 	return vim.fn.executable(paths.luarocks) == 1
@@ -74,7 +64,7 @@ local steps = {
 		description = "Checking Lua exists",
 		task = function()
 			assert(
-				is_available("lua"),
+				is_available("lua") or is_available("luajit"),
 				"Lua not found on your system! Please install it using your system package manager or from https://github.com/rjpcomputing/luaforwindows."
 			)
 		end,
