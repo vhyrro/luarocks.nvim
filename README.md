@@ -13,8 +13,12 @@
 - Lua 5.1 or LuaJIT installed on your system and available in your system's `PATH`.
 
   **On unix systems**, this is as simple as using your system package manager (`brew`, `pacman`, `apt` etc.).
-  Just make sure that you're installing the 5.1 or JIT version of lua! Usually the package name will be something
-  along the lines of `lua51`, `lua-5.1` or `luajit`.
+  Just make sure that you're installing the 5.1 or JIT version of lua!
+  Here's a list of known package names for various package managers (choose the one your distro uses):
+  - brew (MacOS): `brew install luajit`
+  - apt: `sudo apt install liblua5.1-0-dev`
+  - dnf: `sudo dnf install compat-lua-devel-5.1.5`
+  - pacman: `sudo pacman -Syu lua51` or `sudo pacman -Syu luajit`
 
   **On Windows systems**, it's recommended to use an all-in-one installer like https://github.com/rjpcomputing/luaforwindows.
   Be sure to restart your terminal after installing Lua for the `PATH` to be updated!
