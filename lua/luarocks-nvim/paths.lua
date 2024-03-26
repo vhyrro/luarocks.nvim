@@ -8,11 +8,14 @@ return {
 	plugin = plugin_path,
 	rocks = rocks_path,
 	bin = utils.combine_paths(rocks_path, "bin"),
-	luarocks = utils.combine_paths(rocks_path, "bin", "luarocks") .. (utils.is_win() and ".bat" or ""),
+	luarocks = utils.is_win() and utils.combine_paths(rocks_path, "luarocks.bat")
+		or utils.combine_paths(rocks_path, "bin", "luarocks"),
 	build_cache = utils.combine_paths(rocks_path, "builds"),
 	share = {
 		utils.combine_paths(rocks_path, "share", "lua", "5.1", "?.lua"),
 		utils.combine_paths(rocks_path, "share", "lua", "5.1", "?", "init.lua"),
+		utils.combine_paths(rocks_path, "lua", "?.lua"),
+		utils.combine_paths(rocks_path, "lua", "?", "init.lua"),
 	},
 	lib = utils.combine_paths(rocks_path, "lib", "lua", "5.1", lib_extension),
 	rockspec = utils.combine_paths(rocks_path, "neovim-rocks-user-rockspec-0.0-0.rockspec"),
