@@ -97,6 +97,8 @@ local steps = {
 				"install.bat",
 				"/P",
 				paths.rocks,
+				"/TREE",
+				paths.rocks,
 				"/LV",
 				"5.1",
 				"/FORCECONFIG",
