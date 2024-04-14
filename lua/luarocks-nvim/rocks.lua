@@ -22,7 +22,7 @@ build = { type = "builtin" }
 
 	local record = notify.info({ "⌛ Installing rocks:\n", table.concat(rocks, ",") })
 
-	local output = vim.fn.system({ paths.luarocks, "install", "--deps-only", paths.rockspec })
+	local output = vim.fn.system({ paths.luarocks, "install", "--lua-version=5.1", "--server='https://nvim-neorocks.github.io/rocks-binaries/'", "--deps-only", paths.rockspec })
 
 	assert(vim.v.shell_error == 0, "[luarocks] Failed to install from rockspec\n" .. output)
 
