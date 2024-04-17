@@ -15,6 +15,9 @@ return {
 		-- Make .so files available
 		package.cpath = package.cpath .. ";" .. paths.lib
 
+        -- Make treesitter parsers available
+        vim.opt.rtp:append(paths.rtp_lib)
+
 		-- Check that the system is ready to install rocks
 		if build.is_prepared() then
 			-- Invoke the luarocks loader. This allows many versions of the same

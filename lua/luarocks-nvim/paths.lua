@@ -18,5 +18,6 @@ return {
 		utils.combine_paths(rocks_path, "lua", "?", "init.lua"),
 	},
 	lib = utils.combine_paths(rocks_path, "lib", "lua", "5.1", lib_extension),
+    rtp_lib = utils.combine_paths(rocks_path, "lib", "lua", "5.1"),
 	rockspec = utils.combine_paths(rocks_path, "neovim-rocks-user-rockspec-0.0-0.rockspec"),
 }
