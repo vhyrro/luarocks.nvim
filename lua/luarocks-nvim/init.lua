@@ -5,6 +5,8 @@ local notify = require("luarocks-nvim.notify")
 
 return {
 	setup = function(opts)
+		opts = opts or {}
+
 		-- Register an install command
 		vim.api.nvim_create_user_command("RocksInstall", function(o)
 			rocks.install(o.fargs)
@@ -15,8 +17,8 @@ return {
 		-- Make .so files available
 		package.cpath = package.cpath .. ";" .. paths.lib
 
-        -- Make treesitter parsers available
-        vim.opt.rtp:append(paths.rtp_lib)
+		-- Make treesitter parsers available
+		vim.opt.rtp:append(paths.rtp_lib)
 
 		-- Check that the system is ready to install rocks
 		if build.is_prepared() then
