@@ -1,7 +1,7 @@
 local paths = require("luarocks-nvim.paths")
 local notify = require("luarocks-nvim.notify")
 
-local function install(rocks)
+local function install(rocks, luarocks_install_vars)
 	local file, error = io.open(paths.rockspec, "w+")
 	assert(file, "[luarocks] Failed to write rockspec file " .. (error or ""))
 
@@ -22,21 +22,25 @@ build = { type = "builtin" }
 
 	local record = notify.info({ "⌛ Installing rocks:\n", table.concat(rocks, ",") })
 
-	local output = vim.fn.system({
+	local cmd = {
 		paths.luarocks,
 		"install",
 		"--lua-version=5.1",
 		"--server='https://nvim-neorocks.github.io/rocks-binaries/'",
 		"--deps-only",
 		paths.rockspec,
-	})
+	}
+
+	vim.list_extend(cmd, luarocks_install_vars or {})
+
+	local output = vim.fn.system(cmd)
 
 	assert(vim.v.shell_error == 0, "[luarocks] Failed to install from rockspec\n" .. output)
 
 	notify.info("✅ Installed rocks", record)
 end
 
-local function ensure(rocks)
+local function ensure(rocks, luarocks_install_vars)
 	-- There are no rocks requests
 	if not rocks or #rocks == 0 then
 		return
@@ -64,7 +68,7 @@ local function ensure(rocks)
 	end
 
 	if #missing_rocks ~= 0 then
-		install(rocks)
+		install(rocks, luarocks_install_vars)
 	end
 end
 
